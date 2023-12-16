@@ -7,17 +7,12 @@ on:
     branches: [ "main" ]
 
 jobs:
-  print-username:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Print Username 
-      run: echo "darinvi"
-
   build-and-test:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Print SoftUni Username 
+      run: echo "darinvi"
     - name: Checkout repository 
       uses: actions/checkout@v3
     - name: Use Node.js 18.x
@@ -29,3 +24,13 @@ jobs:
       run: npm install
     - name: Run unit tests
       run: npm run test:unit
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to render.com
+        uses: johnbeynon/render-deploy-action@v0.0.8
+        with:
+          service-id: ${{ secrets.MY_RENDER_SERVICE_ID }}
+          api-key: ${{ secrets.MY_RENDER_API_KEY }}
+          wait-for-success: true
